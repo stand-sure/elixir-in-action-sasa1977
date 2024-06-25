@@ -5,11 +5,12 @@ defmodule UserExtraction do
            &(not Map.has_key?(user, &1))
          ) do
       [] ->
-        {:ok, %{
-          login: user["login"],
-          email: user["email"],
-          password: user["password"]
-        }}
+        {:ok,
+         %{
+           login: user["login"],
+           email: user["email"],
+           password: user["password"]
+         }}
 
       missing_fields ->
         {:error, "missing fields: #{Enum.join(missing_fields, ", ")}"}
