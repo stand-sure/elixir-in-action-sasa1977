@@ -1,6 +1,25 @@
 defmodule TodoList do
   defstruct next_id: 1, entries: %{}
 
+  defimpl String.Chars, for: TodoList do
+    def to_string(_) do
+      "#TodoList"
+    end
+  end
+
+  defimpl Collectable, for: TodoList do
+    def into(original) do
+      {original, &into_callback/2}
+    end
+
+    defp into_callback(todo_list, {:cont, entry}) do
+      TodoList.add_entry(todo_list, entry)
+    end
+
+    defp into_callback(todo_list, :done), do: todo_list
+    defp into_callback(todo_list, :halt), do: :ok
+  end
+
   @spec new(list(%{date: Date, title: String.t()}) | []) :: TodoList
 
   def new(entries \\ []) do
