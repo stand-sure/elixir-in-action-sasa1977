@@ -40,7 +40,7 @@ defmodule TodoList do
 end
 
 defmodule TodoList.CsvImporter do
-  def import(file_name) do
+  def import!(file_name) do
     file_name
     |> read_lines
     |> create_entries
